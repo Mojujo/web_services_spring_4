@@ -7,6 +7,7 @@ import se.mojujo.web_services_spring_4.model.Student;
 import se.mojujo.web_services_spring_4.repository.StudentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/student")
@@ -20,6 +21,14 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentRepository.findAll());
+    }
+
+    public ResponseEntity<Student> getStudentById(int id) {
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isPresent()) {
+            return ResponseEntity.ok(student.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
